@@ -1,0 +1,31 @@
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'streams1'
+    static_configs:
+      - targets:
+          - "streams1:8081"
+        labels:
+          env: 'dev'
+
+  - job_name: 'streams-with-external-call'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets:
+          - "streams-with-external-call:8080"
+        labels:
+          env: 'dev'
+
+  - job_name: 'kafka-lag-exporter'
+    static_configs:
+      - targets:
+        - 'kafka-lag-exporter:9999'
+        labels:
+          env: 'dev'
+
